@@ -1,0 +1,75 @@
+/* Root container */
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 40px;
+  width: 100vw;
+  background-color: #131111;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Block container */
+.root1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: auto;
+  width: 300px;
+  border-radius: 12px;
+  background: linear-gradient(to right, #c5ccd8, #13d976);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Remaining amount section */
+.remaining {
+  width: 100%;
+}
+
+/* Headings */
+h2.costh2 {
+  color: #1e1e1e;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+h1.costh1 {
+  color: #000;
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* Rent block */
+.rent {
+  background-color: #ff4d4d;
+  width: 150px;
+  padding: 5px;
+  height:100px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 77, 77, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Rent headings */
+h2.rent1 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+h2.rent2 {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #fff;
+}
+
