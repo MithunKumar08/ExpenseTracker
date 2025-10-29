@@ -1,6 +1,7 @@
 package com.mithun.expensetracker.entity;
 
 import lombok.*;
+import org.springframework.http.HttpStatus;
 
 @Data
 @Setter
@@ -11,5 +12,5 @@ public class LoginResponse {
 
     private String token;
     private Long userId;
-    private String statusCode;
+    private Integer statusCode;
 }
