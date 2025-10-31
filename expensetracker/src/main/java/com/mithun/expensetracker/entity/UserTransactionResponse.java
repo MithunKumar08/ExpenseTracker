@@ -12,14 +12,13 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTransaction {
+public class UserTransactionResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +36,14 @@ public class UserTransaction {
     @DecimalMin(value = "0.00", message = "Total Amount must be greater than zero")
     @Digits(integer = 12, fraction = 2)
     private BigDecimal totalAmount;
+
+    public UserTransactionResponse(Long userId, String type, String category, BigDecimal amount, String description, LocalDateTime date, BigDecimal totalAmount) {
+        this.userId = userId;
+        this.type = type;
+        this.category = category;
+        this.amount = amount;
+        this.description = description;
+        this.date = date;
+        this.totalAmount = totalAmount;
+    }
 }

@@ -3,6 +3,7 @@ package com.mithun.expensetracker.controller;
 import com.mithun.expensetracker.entity.LoginRequest;
 import com.mithun.expensetracker.entity.LoginResponse;
 import com.mithun.expensetracker.entity.User;
+import com.mithun.expensetracker.exception.AuthenticationException;
 import com.mithun.expensetracker.service.AuthService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("register")
-    public ResponseEntity<Map<String,Object>> register(@RequestBody User user){
-        return new ResponseEntity<>(authService.register(user),HttpStatus.CREATED);
+    public ResponseEntity<Map<String,Object>> register(@RequestBody User user) {
+            return new ResponseEntity<>(authService.register(user), HttpStatus.CREATED);
     }
 
     @PostMapping("login")

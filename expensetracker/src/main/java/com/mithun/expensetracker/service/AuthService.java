@@ -28,8 +28,8 @@ public class AuthService {
     JwtUtils jwtUtils;
     @Autowired
     PasswordEncoder passwordEncoder;
-//    @Autowired
-//    EmailService emailService;
+    @Autowired
+    EmailService emailService;
 
     public Map<String,Object> register(User user) {
         try{
@@ -43,7 +43,7 @@ public class AuthService {
             }
 
             userRepo.save(new User(user.getUserId(),user.getUsername(),passwordEncoder.encode(user.getPassword()),user.getEmail(),new BigDecimal(0)));
-            //emailService.sendMail(user.getEmail(),user.getUsername());
+            emailService.sendMail(user.getEmail(),user.getUsername());
             response.put("message","User Registered Successfully !!");
             response.put("status",HttpStatus.CREATED);
             return response;
