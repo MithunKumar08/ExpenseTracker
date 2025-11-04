@@ -40,10 +40,10 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.getUserTransaction(user.getUserId()),HttpStatus.OK);
     }
 
-//    @PutMapping("update")
-//    public ResponseEntity<UserTransactionResponse> updateTransaction(UserTransactionRequest request, @AuthenticationPrincipal User user) {
-//
-//    }
+    @PutMapping("update/{tranId}")
+    public ResponseEntity<UserTransactionResponse> updateTransaction(@PathVariable Long tranId,@RequestBody UserTransactionRequest request, @AuthenticationPrincipal User user) {
+        return new ResponseEntity<>(transactionService.updateTransaction(tranId,request,user),HttpStatus.OK);
+    }
 
     @DeleteMapping("delete/{tranId}")
     public ResponseEntity<String> deleteTransaction(@PathVariable Long tranId){

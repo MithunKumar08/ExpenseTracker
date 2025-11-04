@@ -3,6 +3,7 @@ package com.mithun.expensetracker.service;
 import com.mithun.expensetracker.entity.UserTransactionRequest;
 import com.mithun.expensetracker.entity.UserTransactionResponse;
 import com.mithun.expensetracker.entity.User;
+import com.mithun.expensetracker.exception.NotFoundException;
 import com.mithun.expensetracker.exception.UnsufficientException;
 import com.mithun.expensetracker.repo.TransactionRepo;
 import com.mithun.expensetracker.repo.UserRepo;
@@ -78,6 +79,52 @@ public class TransactionService {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    public UserTransactionResponse updateTransaction(Long tranId, UserTransactionRequest request, User user) {
+        try {
+            Optional<UserTransactionResponse> existingDataOpt = transactionRepo.findById(tranId);
+            if (existingDataOpt.isPresent()) {
+                UserTransactionResponse existingData = existingDataOpt.get();
+
+                BigDecimal totalAmount = user.getTotalAmount();
+
+                // Undo old transaction effect
+                if (existingData.getType().equalsIgnoreCase("income")) {
+                    totalAmount = totalAmount.subtract(existingData.getAmount());
+                } else {
+                    totalAmount = totalAmount.add(existingData.getAmount());
+                }
+
+                // Apply new transaction effect
+                if (request.getType().equalsIgnoreCase("income")) {
+                    totalAmount = totalAmount.add(request.getAmount());
+                } else if (totalAmount.compareTo(request.getAmount()) >= 0) {
+                    totalAmount = totalAmount.subtract(request.getAmount());
+                } else {
+                    throw new UnsufficientException("Don't have sufficient Amount");
+                }
+
+                // Update transaction fields
+                existingData.setType(request.getType());
+                existingData.setCategory(request.getCategory());
+                existingData.setAmount(request.getAmount());
+                existingData.setDescription(request.getDescription());
+                existingData.setDate(getDateTime());
+                existingData.setTotalAmount(totalAmount);
+
+                // Update user balance
+                user.setTotalAmount(totalAmount);
+                updatingTransactionAmount(totalAmount, user.getUserId());
+
+                return transactionRepo.save(existingData);
+            } else {
+                throw new NotFoundException("Transaction not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating transaction", e);
         }
     }
 }
