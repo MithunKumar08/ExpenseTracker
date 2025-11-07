@@ -1,0 +1,135 @@
+/* 🌐 Overall page background */
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* 🏷️ Title */
+.register {
+  color: #ffffff;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* 📦 Form container */
+.register-page {
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.25);
+  width: 360px;
+  text-align: center;
+}
+
+/* 🧾 The form itself */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* 🧍 Each input block */
+.name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* 🏷️ Labels */
+.label-css {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.4rem;
+}
+
+/* ✏️ Input boxes */
+.input-css {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.input-css:focus {
+  outline: none;
+  border-color: #2a5298;
+  box-shadow: 0px 0px 6px rgba(42, 82, 152, 0.3);
+}
+
+/* ✅ Success & ❌ Error messages */
+.success-msg,
+.error-msg {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  padding: 0.6rem;
+}
+
+.success-msg {
+  background-color: #e6f9ee;
+  color: #1d8348;
+  border: 1px solid #1d8348;
+}
+
+.error-msg {
+  background-color: #fdecea;
+  color: #b71c1c;
+  border: 1px solid #b71c1c;
+}
+
+/* 🔘 Submit button */
+button[type='submit'] {
+  background-color: #2a5298;
+  color: #fff;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #1e3c72;
+  transform: translateY(-2px);
+}
+
+/* 🔗 Login link */
+.login-handel {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.login-handel a {
+  color: #2a5298;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-handel a:hover {
+  text-decoration: underline;
+}
+
+/* 📱 Responsive layout */
+@media (max-width: 480px) {
+  .register-page {
+    width: 90%;
+    padding: 1.8rem 1.2rem;
+  }
+
+  .register {
+    font-size: 1.8rem;
+  }
+}
