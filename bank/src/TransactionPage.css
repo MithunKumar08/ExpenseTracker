@@ -1,88 +1,112 @@
-/* Reset default margins and paddings */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  .App{
-    display: block;
-  }
-  
-  /* Container for the transaction heading */
-  .tran1 {
-    display: flex;
-    justify-content: center; /* center horizontally */
-    align-items: center;     /* center vertically within the div */
-    height: 100px;
-    width: 100%;
-    background-color: #f0f0f0; /* optional background */
-    padding-top: 20px;
-    margin-top: 10px;
-  }
-  
-  /* Styling for the heading */
+/* Page background */
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #ffffff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header section */
+.tran1 {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.tranh1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+/* Form container */
+.form-container {
+  width: 100%;
+  max-width: 450px;
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 30px 25px;
+  box-shadow: 0px 6px 15px rgba(79, 70, 229, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 20px rgba(79, 70, 229, 0.25);
+}
+
+/* Label styles */
+.form-group label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Input and textarea */
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #c7d2fe;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: #f9fafb;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0px 0px 5px rgba(79, 70, 229, 0.4);
+  background: #ffffff;
+}
+
+/* Submit button */
+button[type="submit"] {
+  width: 100%;
+  background-color: #4f46e5;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #4338ca;
+  transform: scale(1.03);
+}
+
+/* Responsive */
+@media (max-width: 500px) {
   .tranh1 {
-    width: 90vw;
-    border-radius: 10px;
-    background-color: rgb(109, 53, 53);
-    color: aliceblue;
-    padding: 15px;
-    margin: 0;
-    text-align: center;
     font-size: 24px;
   }
 
-.form-container{
- max-width: 600px;
- margin: 20px auto;
- display: flex;
- flex-direction: column;
- gap: 1px;
- flex-wrap: wrap;
+  .form-container {
+    padding: 25px 20px;
+  }
+
+  button[type="submit"] {
+    font-size: 15px;
+  }
 }
-
-.form-group {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 15px;
-    margin-bottom: 10px;
-  }
-  
-label {
-    font-weight: bold;
-    margin-bottom: 10px;
-    width: 30%;
-  }
-  
-  
-input, textarea {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 65%;
-  }
-
-  
-.button {
-    padding: 10px;
-    font-size: 16px;
-    background-color: rgb(97, 49, 49);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  
-.button:hover {
-    background-color: rgb(89, 43, 43);
-  }
-  
-  
-  
-
-
