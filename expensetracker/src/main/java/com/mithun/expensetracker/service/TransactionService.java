@@ -1,5 +1,6 @@
 package com.mithun.expensetracker.service;
 
+import com.mithun.expensetracker.entity.UserResponse;
 import com.mithun.expensetracker.entity.UserTransactionRequest;
 import com.mithun.expensetracker.entity.UserTransactionResponse;
 import com.mithun.expensetracker.entity.User;
@@ -9,6 +10,8 @@ import com.mithun.expensetracker.repo.TransactionRepo;
 import com.mithun.expensetracker.repo.UserRepo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,6 +128,18 @@ public class TransactionService {
             }
         } catch (Exception e) {
             throw new RuntimeException("Error updating transaction", e);
+        }
+    }
+
+    public UserResponse getLoginUserDetails(User user) {
+        try{
+            Optional<User> fetchData = userRepo.findByUserId(user.getUserId());
+            if(fetchData.isPresent()){
+                User data = fetchData.get();
+                return new UserResponse(data.getUserId(),data.getUsername(),data.getEmail(),data.getTotalAmount());
+            }else throw new NotFoundException("User does Not Exist");
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
         }
     }
 }

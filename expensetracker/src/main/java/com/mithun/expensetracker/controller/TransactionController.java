@@ -1,11 +1,13 @@
 package com.mithun.expensetracker.controller;
 
+import com.mithun.expensetracker.entity.UserResponse;
 import com.mithun.expensetracker.entity.UserTransactionRequest;
 import com.mithun.expensetracker.entity.User;
 import com.mithun.expensetracker.entity.UserTransactionResponse;
 import com.mithun.expensetracker.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("transaction")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -48,6 +51,11 @@ public class TransactionController {
     @DeleteMapping("delete/{tranId}")
     public ResponseEntity<String> deleteTransaction(@PathVariable Long tranId){
         return new ResponseEntity<>(transactionService.deleteTransaction(tranId),HttpStatus.OK);
+    }
+
+    @GetMapping("getUser")
+    public ResponseEntity<UserResponse> getLoginUserDetails(@AuthenticationPrincipal User user){
+        return new ResponseEntity<>(transactionService.getLoginUserDetails(user),HttpStatus.OK);
     }
 
 }
