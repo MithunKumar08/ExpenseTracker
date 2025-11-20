@@ -40,18 +40,18 @@ function Login() {
             setTimeout(() => {
               setSuccessMsg('');
               navigate('/home')
-            },3000)
+            },2000)
             
           }else if(response.statusCode === 404){
                     setErrorMsg("⚠️ USER DOES NOT EXIST")
                     setTimeout(() => {
                         setErrorMsg('');
                         navigate('/login')
-                    },5000)
+                    },2000)
                 }
         }catch(error){
           setErrorMsg(error.response?.data?.message || error.message)
-          setTimeout(() => {setErrorMsg('')},5000)
+          setTimeout(() => {setErrorMsg('')},2000)
         }
 
         }else{

@@ -46,12 +46,12 @@ export default class ApiService {
   }
 
   // ✅ Get user transactions
-  static async getUserTransaction() {
+  static async getUserTransaction(month) {
     const response = await ApiService.axiosInstance.get(
-      "/transaction/getUserTransaction",
+      `/transaction/getAllTranMonth/${month}`,
       { headers: this.getHeader() }
     );
-    console.log("User Transactions:", response);
+    console.log("User ALL Transactions:", response);
     return response.data;
   }
 
@@ -73,6 +73,15 @@ export default class ApiService {
       { headers: this.getHeader() }
     );
     console.log("User Details:", response);
+    return response.data;
+  }
+
+  static async getTranByMonth(month){
+    const response = await ApiService.axiosInstance.get(
+      `/transaction/monthTran/${month}`,
+      {headers: this.getHeader()}
+    )
+    console.log("Response By Month: ",response);
     return response.data;
   }
 }

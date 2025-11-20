@@ -17,7 +17,7 @@ const Navbar = () => {
   }
   return (
     <nav className="nav-container">
-      <NavLink to="/home" className="nav-logo">Spendly</NavLink>
+      <NavLink to="/home" className="nav-logo">SpendBook</NavLink>
       <div className="nav-links">
 
         <NavLink to="/home" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}> Home</NavLink>
