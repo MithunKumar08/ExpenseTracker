@@ -1,9 +1,6 @@
 package com.mithun.expensetracker.service;
 
-import com.mithun.expensetracker.entity.UserResponse;
-import com.mithun.expensetracker.entity.UserTransactionRequest;
-import com.mithun.expensetracker.entity.UserTransactionResponse;
-import com.mithun.expensetracker.entity.User;
+import com.mithun.expensetracker.entity.*;
 import com.mithun.expensetracker.exception.NotFoundException;
 import com.mithun.expensetracker.exception.UnsufficientException;
 import com.mithun.expensetracker.repo.TransactionRepo;
@@ -12,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +32,6 @@ public class TransactionService {
         try{
             User user = userRepo.findById(userRequest.getUserId()).orElseThrow(()-> new RuntimeException("User not Registered"));
 
-
                 BigDecimal totalAmount = userRequest.getTotalAmount();
                     if (transaction.getType().equalsIgnoreCase("income"))
                         totalAmount = userRequest.getTotalAmount().add(transaction.getAmount());
@@ -43,7 +40,7 @@ public class TransactionService {
                     }else {
                         throw new UnsufficientException("Don't have sufficient Amount");
                     }
-                    UserTransactionResponse newTransaction = new UserTransactionResponse(userRequest.getUserId(), transaction.getType(), transaction.getCategory(), transaction.getAmount(), transaction.getDescription(), getDateTime(), totalAmount);
+                    UserTransactionResponse newTransaction = new UserTransactionResponse(userRequest.getUserId(), transaction.getType(), transaction.getCategory(), transaction.getAmount(), transaction.getDescription(), transaction.getDate(), totalAmount);
 
                     this.updatingTransactionAmount(totalAmount,userRequest.getUserId());
 
@@ -59,9 +56,9 @@ public class TransactionService {
         userRepo.updatingTransactionAmount(totalAmount,userId);
     }
 
-    private LocalDateTime getDateTime() {
-        return ZonedDateTime.now(ZoneId.of("Asia/Kolkata")).toLocalDateTime();
-    }
+//    private LocalDateTime getDateTime() {
+//        return ZonedDateTime.now(ZoneId.of("Asia/Kolkata")).toLocalDateTime();
+//    }
 
     public List<UserTransactionResponse> getAllTransactions() {
         return transactionRepo.findAll();
@@ -115,7 +112,7 @@ public class TransactionService {
                 existingData.setCategory(request.getCategory());
                 existingData.setAmount(request.getAmount());
                 existingData.setDescription(request.getDescription());
-                existingData.setDate(getDateTime());
+                existingData.setDate(request.getDate());
                 existingData.setTotalAmount(totalAmount);
 
                 // Update user balance
@@ -140,6 +137,52 @@ public class TransactionService {
             }else throw new NotFoundException("User does Not Exist");
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 0 0 1 * ?", zone = "Asia/Kolkata")
+    public void resetTotalAmountOnEveryMonth(){
+        try{
+            List<User> allUsers = userRepo.findAll();
+            for(User users : allUsers){
+                users.setTotalAmount(BigDecimal.ZERO);
+            }
+            userRepo.saveAll(allUsers);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ReturnResponse monthlyTransaction(User user, String month) {
+        List<UserTransactionResponse> data = transactionRepo.findTranByMonth(user.getUserId(),month);
+        BigDecimal totalIncome = BigDecimal.ZERO,totalExpense = BigDecimal.ZERO,remaining=BigDecimal.ZERO;
+
+        try{
+            for(UserTransactionResponse datas : data){
+                if(datas.getType().equalsIgnoreCase("income")){
+                    totalIncome = totalIncome.add(datas.getAmount());
+                }else totalExpense = totalExpense.add(datas.getAmount());
+
+                remaining = totalIncome.subtract(totalExpense);
+            }
+            return new ReturnResponse(totalIncome,totalExpense,remaining);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<UserTransactionResponse> getAllTransactionByMonth(User user, String month) {
+        return transactionRepo.findTranByMonth(user.getUserId(),month);
+    }
+
+    public UserTransactionResponse getTranById(Long tranID) {
+        try{
+            Optional<UserTransactionResponse> response = transactionRepo.findById(tranID);
+            if(response.isPresent()) return response.get();
+            else throw new NotFoundException("Transaction with Id: "+tranID + " not found");
+        } catch (Exception e) {
+            throw new NotFoundException("Transaction with Id: "+tranID + " not found");
         }
     }
 }

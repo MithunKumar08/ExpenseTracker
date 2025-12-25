@@ -1,9 +1,6 @@
 package com.mithun.expensetracker.controller;
 
-import com.mithun.expensetracker.entity.UserResponse;
-import com.mithun.expensetracker.entity.UserTransactionRequest;
-import com.mithun.expensetracker.entity.User;
-import com.mithun.expensetracker.entity.UserTransactionResponse;
+import com.mithun.expensetracker.entity.*;
 import com.mithun.expensetracker.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +53,21 @@ public class TransactionController {
     @GetMapping("getUser")
     public ResponseEntity<UserResponse> getLoginUserDetails(@AuthenticationPrincipal User user){
         return new ResponseEntity<>(transactionService.getLoginUserDetails(user),HttpStatus.OK);
+    }
+
+    @GetMapping("monthTran/{month}")
+    public ResponseEntity<ReturnResponse> monthlyTransaction(@AuthenticationPrincipal User user,@PathVariable String month){
+        return new ResponseEntity<>(transactionService.monthlyTransaction(user,month),HttpStatus.OK);
+    }
+
+    @GetMapping("getAllTranMonth/{month}")
+    public ResponseEntity<List<UserTransactionResponse>> getAllTransactionByMonth(@AuthenticationPrincipal User user, @PathVariable String month){
+        return  new ResponseEntity<>(transactionService.getAllTransactionByMonth(user,month),HttpStatus.OK);
+    }
+
+    @GetMapping("getTranById/{tranId}")
+    public ResponseEntity<UserTransactionResponse> getTranById(@PathVariable Long tranId){
+        return new ResponseEntity<>(transactionService.getTranById(tranId),HttpStatus.OK);
     }
 
 }
